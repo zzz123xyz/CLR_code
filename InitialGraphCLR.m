@@ -1,4 +1,4 @@
-function A = InitialGraphCLR(data, m)
+function A = InitialGraphCLR(data, m, issymmetric)
 %% 
 % by Lance, May 2016
 % Learning An Initial Graph
@@ -22,8 +22,10 @@ end
 E_numerator = E.*IndMask;
 Eim1_numerator = Eim1.*IndMask;
 
-denominator = m*Eim1 - repmat(sum(SortedE(:,1:m),2),[1,n]);
+denominator = m*Eim1 - repmat(sum(SortedE(:,1:m),2),[1,n]) + eps;
 A = (Eim1_numerator - E_numerator)./denominator;
 
-
+if issymmetric == 1
+    A = (A+A')/2;
+end;
     
